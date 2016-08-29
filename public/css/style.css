@@ -1,0 +1,10 @@
+#departure-table {
+	font-family:monospace;
+}
+
+
+.message {
+	text-align:center;
+	max-width:100%;
+	margin:10 auto;
+}

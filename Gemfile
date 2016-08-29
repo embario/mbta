@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+
+gem 'net'
+gem 'launchy'
+gem 'byebug'
+gem 'shotgun'
+gem 'haml'
+gem 'sinatra'
+gem 'sinatra-flash'
+gem 'sinatra-contrib'
+gem 'thin'

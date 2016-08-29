@@ -1,0 +1,64 @@
+%html
+	%head
+		%title MBTA
+		%meta{:name => "viewport", :content =>"width=device-width, initial-scale=1"}
+		%link{:type => "text/css", :href => 'css/bootstrap.min.css', :rel => "stylesheet"}
+		%link{:type => "text/css", :href => 'css/style.css', :rel => "stylesheet"}
+		%script{:src => 'js/jquery.min.js'}
+	%body
+		.container
+			.row
+				.col-md-12.col-xs-12.col-sm-12
+					=styled_flash
+
+					#content
+						%h1{:style => "text-align:center;"}MBTA North/South Station Times
+						%hr
+
+						.table-responsive
+							%table{:id => "departure-table", :class => "table table-striped"}
+								%thead
+									%tr
+										%th Timestamp
+										%th Origin
+										%th Trip
+										%th Destination
+										%th Scheduled Time
+										%th Lateness 
+										%th Track #
+										%th Status
+								%tbody
+									- departures.each do |d|
+										%tr
+											%td=d.timestamp
+											%td=d.origin
+											%td=d.trip
+											%td=d.destination
+											%td=d.scheduled_time
+											%td=d.lateness
+											%td=d.track
+											- case d.status
+												-when 'On Time'
+													%td
+														%span{:class => "label label-success", :style => "font-size:100%;"}On Time
+												-when 'Now Boarding', 'All Aboard'
+													%td
+														%span{:class => "label label-primary", :style => "font-size:100%;"}Now Boarding
+												-when 'Cancelled'
+													%td
+														%span{:class => "label label-danger", :style => "font-size:100%;"}Cancelled
+												-when 'Delayed'
+													%td
+														%span{:class => "label label-warning", :style => "font-size:100%;"}Delayed
+												- when 'Arriving', 'Arrived'
+													%td
+														%span{:class => "label label-info", :style => "font-size:100%;"}Arriving			
+												- when 'Departed'
+													%td
+														%span{:class => "label label-default", :style => "font-size:100%;"}Departed
+												- else
+													%td
+														%span{:class => "label label-default", :style => "font-size:100%;"}=d.status													
+											
+					
+						%footer{:style =>"margin-top:20px; text-align:center;"} Copyright 2016 Mario Barrenechea, All Rights Reserved.
