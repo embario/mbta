@@ -5,6 +5,7 @@
 		%link{:type => "text/css", :href => 'css/bootstrap.min.css', :rel => "stylesheet"}
 		%link{:type => "text/css", :href => 'css/style.css', :rel => "stylesheet"}
 		%script{:src => 'js/jquery.min.js'}
+		%script{:src => 'js/update.js'}
 	%body
 		.container
 			.row
@@ -14,51 +15,53 @@
 					#content
 						%h1{:style => "text-align:center;"}MBTA North/South Station Times
 						%hr
-
-						.table-responsive
-							%table{:id => "departure-table", :class => "table table-striped"}
-								%thead
-									%tr
-										%th Timestamp
-										%th Origin
-										%th Trip
-										%th Destination
-										%th Scheduled Time
-										%th Lateness 
-										%th Track #
-										%th Status
-								%tbody
-									- departures.each do |d|
+						-departures.keys.each do |dep|
+							.table-responsive
+								%h2{:style => "text-align:center;"}=dep
+								%table{:class => "table table-striped departure-table"}
+									%thead
 										%tr
-											%td=d.timestamp
-											%td=d.origin
-											%td=d.trip
-											%td=d.destination
-											%td=d.scheduled_time
-											%td=d.lateness
-											%td=d.track
-											- case d.status
-												-when 'On Time'
-													%td
-														%span{:class => "label label-success", :style => "font-size:100%;"}On Time
-												-when 'Now Boarding', 'All Aboard'
-													%td
-														%span{:class => "label label-primary", :style => "font-size:100%;"}Now Boarding
-												-when 'Cancelled'
-													%td
-														%span{:class => "label label-danger", :style => "font-size:100%;"}Cancelled
-												-when 'Delayed'
-													%td
-														%span{:class => "label label-warning", :style => "font-size:100%;"}Delayed
-												- when 'Arriving', 'Arrived'
-													%td
-														%span{:class => "label label-info", :style => "font-size:100%;"}Arriving			
-												- when 'Departed'
-													%td
-														%span{:class => "label label-default", :style => "font-size:100%;"}Departed
-												- else
-													%td
-														%span{:class => "label label-default", :style => "font-size:100%;"}=d.status													
-											
+											/ %th Timestamp
+											%th Scheduled Time
+											%th Trip
+											%th Destination
+											/ %th Origin
+											%th Lateness 
+											%th Track #
+											%th Status
+									%tbody
+										- departures[dep].each do |d|
+											%tr{:class => "trip", :value => "#{d.trip}"}
+												/ %td=d.timestamp
+												%td{:class => "scheduled_time"}=d.scheduled_time
+												%td{:class => "trip_id"}=d.trip
+												%td{:class => "destination"}=d.destination
+												/ %td{:class => "origin"}=d.origin
+												%td{:class => "lateness"}=d.lateness
+												%td{:class => "track"}=d.track
+												%td{:class => "status"}
+													- case d.status
+														-when 'On Time'
+															%span{:class => "label label-success mbta-label"}On Time
+														-when 'Now Boarding', 'All Aboard'
+															/ %td{:class => "status"}
+															%span{:class => "label label-primary mbta-label"}Now Boarding
+														-when 'Cancelled'
+															/ %td{:class => "status"}
+															%span{:class => "label label-danger mbta-label"}Cancelled
+														-when 'Delayed'
+															/ %td{:class => "status"}
+															%span{:class => "label label-warning mbta-label"}Delayed
+														- when 'Arriving', 'Arrived'
+															/ %td{:class => "status"}
+															%span{:class => "label label-info mbta-label"}Arriving			
+														- when 'Departed'
+															/ %td{:class => "status"}
+															%span{:class => "label label-default mbta-label"}Departed
+														- else
+															/ %td{:class => "status"}
+															%span{:class => "label label-default mbta-label"}=d.status					
+								%hr								
+												
 					
 						%footer{:style =>"margin-top:20px; text-align:center;"} Copyright 2016 Mario Barrenechea, All Rights Reserved.
